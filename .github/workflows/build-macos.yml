@@ -1,0 +1,37 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Build Ubuntu Release Preview
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'yarn'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build Release
+        run: yarn tauri build
+      - name: Move Executable to root
+        run: mv src-tauri/target/release/todo-list ./artifact-macos
+      - name: Upload artifact release
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifact-macos
+          path: ubuntu
+
