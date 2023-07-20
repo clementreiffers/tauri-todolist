@@ -12,13 +12,15 @@ function App () {
 
   const [todo, setTodo] = useState({ todoList: [], tmpTodo: '' })
 
-  const handleSetTodo = (value) => setTodo({ ...todo, todoList: [...todo.todoList, value] })
+  const todoElement = (value, done) => ({ value, done })
+
+  const handleSetTodo = (value) => setTodo({ ...todo, todoList: [...todo.todoList, todoElement(value, false)] })
 
   const handleSetTmpTodo = (event) => setTodo({ ...todo, tmpTodo: event.target.value })
 
-  const setListElementRender = (element) => <div>
-    <input id={element} type={'checkbox'}/>
-    <label htmlFor={element}>{element}</label>
+  const setListElementRender = (element, key) => <div>
+    <input id={key} key={key} type={'checkbox'}/>
+    <label htmlFor={key}>{element.value}</label>
   </div>
 
   return (
