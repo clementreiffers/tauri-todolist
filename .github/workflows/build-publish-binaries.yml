@@ -6,6 +6,24 @@ on:
       - main
 
 jobs:
+  build-website:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install dependencies
+        run: yarn install
+      - name: build website
+        run: yarn build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+
   create-release:
     permissions:
       contents: write
