@@ -24,7 +24,7 @@ jobs:
         node-version: 18.x
         cache: 'yarn'
     - name: install GDK
-      run: sudo apt update && sudo apt install -y gdk-3.0
+      run: sudo apt-get update && sudo apt-get install -y gdk-3.0
     - name: Install Dependencies
       run: yarn install
     - name: Build Release
