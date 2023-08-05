@@ -2,25 +2,32 @@ import './App.css'
 import { useState } from 'react'
 
 function App () {
-  // const [greetMsg, setGreetMsg] = useState('')
-  // const [name, setName] = useState('')
-  //
-  // async function greet () {
-  // //   Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  // setGreetMsg(await invoke('greet', { name }))
-  // }
-
   const [todo, setTodo] = useState({ todoList: [], tmpTodo: '' })
 
-  const todoElement = (value, done) => ({ value, done })
+  const createTodoElement = (value, done) => ({ value, done })
 
-  const handleSetTodo = (value) => setTodo({ ...todo, todoList: [...todo.todoList, todoElement(value, false)] })
+  const handleSetTodo = (value) => setTodo({ ...todo, todoList: [...todo.todoList, createTodoElement(value, false)] })
 
   const handleSetTmpTodo = (event) => setTodo({ ...todo, tmpTodo: event.target.value })
 
-  const setListElementRender = (element, key) => <div>
-    <input id={key} key={key} type={'checkbox'}/>
-    <label htmlFor={key}>{element.value}</label>
+  const setDone = (event) => {
+    const todoList = todo.todoList
+    const id = event.target.id
+
+    const todoElement = todo.todoList[id]
+    const isDone = todoElement.done
+    const todoValue = todoElement.value
+
+    todoList[id] = createTodoElement(todoValue, !isDone)
+    setTodo({ ...todo, todoList })
+    console.log(todo)
+  }
+
+  const setTextDecoration = (element) => element.done ? 'line-through' : 'none'
+
+  const setListElementRender = (element, key) => <div key={key}>
+    <input id={key} type={'checkbox'} onChange={setDone}/>
+    <label htmlFor={key} style={{ textDecoration: setTextDecoration(element) }}>{element.value}</label>
   </div>
 
   return (
