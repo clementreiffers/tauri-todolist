@@ -23,9 +23,11 @@ function App () {
     console.log(todo)
   }
 
+  const setTextDecoration = (element) => element.done ? 'line-through' : 'none'
+
   const setListElementRender = (element, key) => <div key={key}>
     <input id={key} type={'checkbox'} onChange={setDone}/>
-    <label htmlFor={key} >{element.value}</label>
+    <label htmlFor={key} style={{ textDecoration: setTextDecoration(element) }}>{element.value}</label>
   </div>
 
   return (
